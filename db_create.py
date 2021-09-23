@@ -1,3 +1,7 @@
+from flask.cli import with_appcontext
+
 from flaskblog import db
 
-db.create_all()
+@with_appcontext
+def create_tables():
+    db.create_all()
