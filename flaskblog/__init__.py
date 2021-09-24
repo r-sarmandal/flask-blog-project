@@ -8,7 +8,7 @@ from flaskblog.config import Config
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'users.login'
+login_manager.login_view = 'user.login'
 login_manager.login_message = "Kindly login to access the requested page."
 login_manager.login_message_category = "warning"
 
@@ -24,13 +24,13 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     mail.init_app(app)
 
-    from flaskblog.users.routes import users
+    from flaskblog.user.routes import user
     from flaskblog.posts.routes import posts
     from flaskblog.main.routes import main
     from flaskblog.errors.handlers import errors
     from flaskblog.commands import cmd
 
-    app.register_blueprint(users)
+    app.register_blueprint(user)
     app.register_blueprint(posts)
     app.register_blueprint(main)
     app.register_blueprint(errors)

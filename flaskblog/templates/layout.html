@@ -57,21 +57,21 @@
                   <a class="nav-item nav-link" href="{{url_for('posts.new_post')}}">Create New Post</a>
                   </li>
                   <li class="nav-item active">
-                  <a class="nav-item nav-link" href="{{url_for('users.user_posts', username = current_user.username)}}">My Posts</a>
+                  <a class="nav-item nav-link" href="{{url_for('user.user_posts', username = current_user.username)}}">My Posts</a>
                   </li>
                   <li class="nav-item active">
-                  <a class="nav-item nav-link" href="{{url_for('users.account')}}">My Account</a>
+                  <a class="nav-item nav-link" href="{{url_for('user.account')}}">My Account</a>
                   </li>
                   <li class="nav-item active">
-                  <a class="nav-item nav-link" href="{{url_for('users.logout')}}">Logout</a>
+                  <a class="nav-item nav-link" href="{{url_for('user.logout')}}">Logout</a>
                   </li>
 
                   {% else %}
                 <li class="nav-item active">
-                    <a class="nav-item nav-link" href="{{url_for('users.login')}}">Login</a>
+                    <a class="nav-item nav-link" href="{{url_for('user.login')}}">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-item nav-link" href="{{url_for('users.register')}}">Register</a>
+                    <a class="nav-item nav-link" href="{{url_for('user.register')}}">Register</a>
                 </li>
                   {% endif %}
               </ul>

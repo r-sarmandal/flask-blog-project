@@ -21,14 +21,14 @@ class RegistrationForm(FlaskForm):
 
     def validate_username(self,username):
 
-        users = User.query.filter_by(username=username.data).first()
-        if users:
+        user = User.query.filter_by(username=username.data).first()
+        if user:
             raise ValidationError('Username already taken. Please choose another username.')
 
     def validate_email(self, email):
 
-            users = User.query.filter_by(email=email.data).first()
-            if users:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
                 raise ValidationError('An account using this email ID already exists.')
 
 class LoginForm(FlaskForm):
@@ -53,14 +53,14 @@ class UpdateAccountForm(FlaskForm):
     def validate_username(self,username):
 
         if username.data != current_user.username:
-         users = User.query.filter_by(username=username.data).first()
-         if users:
+         user = User.query.filter_by(username=username.data).first()
+         if user:
             raise ValidationError('Username already taken. Please choose another username.')
 
     def validate_email(self, email):
             if email.data != current_user.email:
-             users = User.query.filter_by(email=email.data).first()
-             if users:
+             user = User.query.filter_by(email=email.data).first()
+             if user:
                 raise ValidationError('An account using this email ID already exists.')
 
 
@@ -70,8 +70,8 @@ class RequestResetForm(FlaskForm):
 
     def validate_email(self, email):
 
-            users = User.query.filter_by(email=email.data).first()
-            if users is None:
+            user = User.query.filter_by(email=email.data).first()
+            if user is None:
                 raise ValidationError('There is no account with this email id.')
 
 class ResetPasswordForm(FlaskForm):
