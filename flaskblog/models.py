@@ -6,9 +6,9 @@ from flask import current_app
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User_table.query.get(int(user_id))
 
-class User(db.Model, UserMixin):
+class User_table(db.Model, UserMixin):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -28,10 +28,10 @@ class User(db.Model, UserMixin):
             user_id=s.loads(token)['user_id']
         except:
            return None
-        return User.query.get(user_id)
+        return User_table.query.get(user_id)
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+        return f"User_table('{self.username}', '{self.email}', '{self.image_file}')"
 
 
 class Post(db.Model):
