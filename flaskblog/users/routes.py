@@ -15,8 +15,8 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
+        users = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        db.session.add(users)
         db.session.commit()
         flash('Your account has been created! Please login to your account to continue.', 'success')
         return redirect(url_for('users.login'))
@@ -29,11 +29,11 @@ def login():
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
+        users = User.query.filter_by(email=form.email.data).first()
+        if users and bcrypt.check_password_hash(users.password, form.password.data):
+            login_user(users, remember=form.remember.data)
             next_page = request.args.get('next')
-            flash('Welcome back, ' +  user.username + '!', 'success')
+            flash('Welcome back, ' +  users.username + '!', 'success')
             return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
             flash('Login Unsuccessful. Please check email and password again.', 'danger')
@@ -66,12 +66,12 @@ def account():
     return render_template('account.html', title='Account',
                            image_file=image_file, form=form)
 
-@users.route("/user/<string:username>")
+@users.route("/users/<string:username>")
 def user_posts(username):
     page = request.args.get('page', 1, type=int)
-    user = User.query.filter_by(username=username).first_or_404()
-    posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
-    return render_template('user_posts.html', posts=posts,user=user)
+    users = User.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(author=users).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    return render_template('user_posts.html', posts=posts,users=users)
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
@@ -79,8 +79,8 @@ def reset_request():
         return redirect(url_for('main.home'))
     form = RequestResetForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        send_reset_email(user)
+        users = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(users)
         flash('Email to reset password sent to registered id.','info')
         return redirect(url_for('users.login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
@@ -89,14 +89,14 @@ def reset_request():
 def reset_token(token):
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
-    user = User.verify_reset_token(token)
-    if user is None:
+    users = User.verify_reset_token(token)
+    if users is None:
         flash('Token is invalid/has expired','danger')
         return redirect(url_for(reset_request))
     form = ResetPasswordForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user.password = hashed_password
+        users.password = hashed_password
         db.session.commit()
         flash('Password successfully updated! Kindly login again.', 'success')
         return redirect(url_for('users.login'))
