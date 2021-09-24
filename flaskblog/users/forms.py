@@ -3,7 +3,7 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
-from flaskblog.models import User_table
+from flaskblog.models import User
 
 
 class RegistrationForm(FlaskForm):
@@ -21,13 +21,13 @@ class RegistrationForm(FlaskForm):
 
     def validate_username(self,username):
 
-        user = User_table.query.filter_by(username=username.data).first()
+        user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('Username already taken. Please choose another username.')
 
     def validate_email(self, email):
 
-            user = User_table.query.filter_by(email=email.data).first()
+            user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('An account using this email ID already exists.')
 
@@ -53,13 +53,13 @@ class UpdateAccountForm(FlaskForm):
     def validate_username(self,username):
 
         if username.data != current_user.username:
-         user = User_table.query.filter_by(username=username.data).first()
+         user = User.query.filter_by(username=username.data).first()
          if user:
             raise ValidationError('Username already taken. Please choose another username.')
 
     def validate_email(self, email):
             if email.data != current_user.email:
-             user = User_table.query.filter_by(email=email.data).first()
+             user = User.query.filter_by(email=email.data).first()
              if user:
                 raise ValidationError('An account using this email ID already exists.')
 
@@ -70,7 +70,7 @@ class RequestResetForm(FlaskForm):
 
     def validate_email(self, email):
 
-            user = User_table.query.filter_by(email=email.data).first()
+            user = User.query.filter_by(email=email.data).first()
             if user is None:
                 raise ValidationError('There is no account with this email id.')
 
