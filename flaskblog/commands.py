@@ -1,10 +1,8 @@
-import click
-from flask.cli import with_appcontext
-
+import cmd
 from flaskblog import db
-from flaskblog.models import User, Post
+from flask import Blueprint
 
-@click.command(name='create_tables')
-@with_appcontext
-def create_tables():
+cmd = Blueprint('db', __name__)
+@cmd.cli.command('create_db')
+def createDatabase():
     db.create_all()
