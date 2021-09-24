@@ -1,4 +1,4 @@
-from flaskblog import create_app
+from flaskblog import create_app, db
 import sys
 import logging
 
@@ -8,3 +8,5 @@ app.logger.setLevel(logging.ERROR)
 
 if __name__ == '__main__':
     app.run()
+    with app.app_context():
+        db.create_all()
