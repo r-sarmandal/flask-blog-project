@@ -24,7 +24,7 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     mail.init_app(app)
 
-    from flaskblog.user.routes import user
+    from flaskblog.users.routes import user
     from flaskblog.posts.routes import posts
     from flaskblog.main.routes import main
     from flaskblog.errors.handlers import errors
