@@ -17,6 +17,8 @@ mail = Mail()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
     app.config.from_object(Config)
 
     db.init_app(app)
